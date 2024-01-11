@@ -1,2 +1,3 @@
-# Any hidden files and directories
+# Any hidden/internal files and directories
 .*
+_*

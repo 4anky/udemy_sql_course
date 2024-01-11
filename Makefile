@@ -5,4 +5,4 @@ run:
 	POSTGRES_USER=vladimir \
 	POSTGRES_PASSWORD=qwerty \
 	POSTGRES_DB=northwind \
-	python3.12 db.py
+	python3.12 main.py

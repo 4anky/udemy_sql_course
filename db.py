@@ -2,6 +2,11 @@ from sqlalchemy import create_engine, text
 from testcontainers.postgres import PostgresContainer
 
 
+__all__ = (
+    'run_northwind',
+)
+
+
 _NORTHWIND_FILE_PATH = 'northwind.sql'
 """Path to the Script which contains Northwind data."""
 
@@ -31,10 +36,5 @@ def run_northwind() -> None:
             )
             connection.commit()
 
-        print('Postgres is ready!')
         while True:
             pass
-
-
-if __name__ == '__main__':
-    run_northwind()

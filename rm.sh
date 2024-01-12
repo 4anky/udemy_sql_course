@@ -1,5 +1,6 @@
 #!/bin/bash
-# This script removes all docker containers (ran and stopped)
+# This script removes all docker containers (ran and stopped).
+# It is useful for unexpected interruptions of program.
 
 # Get a list of all container IDs
 container_ids=$(docker ps -aq)

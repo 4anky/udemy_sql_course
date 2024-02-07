@@ -1,19 +1,15 @@
-from os import environ
+"""
+Module describes entrypoint function and function
+which tries to get the query to fill database.
+"""
 
 from sqlalchemy import create_engine, text
 from testcontainers.postgres import PostgresContainer
 
-
-__all__ = (
-    'run_northwind',
-)
+from settings import NORTHWIND_FILE_PATH, PORT
 
 
-_NORTHWIND_FILE_PATH = 'northwind.sql'
-"""Path to the Script which contains Northwind data."""
-
-_PORT = int(environ['POSTGRES_PORT'])
-"""Port for container and host. Is used to expose."""
+__all__ = ("run",)
 
 
 def _receive_northwind_query() -> str:
@@ -21,11 +17,11 @@ def _receive_northwind_query() -> str:
     Extracts db query from file and returns it.
     """
 
-    with open(_NORTHWIND_FILE_PATH) as sql_file:
+    with open(NORTHWIND_FILE_PATH, encoding="utf-8") as sql_file:
         return sql_file.read()
 
 
-def run_northwind() -> None:
+def run() -> None:
     """
     Runs docker container of Postgres, fills one
     by data of 'Northwind' company and then allows
@@ -33,17 +29,13 @@ def run_northwind() -> None:
     then postgres container will be removed.
     """
 
-    with PostgresContainer(
-            port=_PORT
-    ).with_bind_ports(
-            _PORT, host=_PORT
-    ) as postgres:
+    with PostgresContainer(port=PORT).with_bind_ports(PORT, host=PORT) as postgres:
         engine = create_engine(postgres.get_connection_url())
         with engine.connect() as connection:
-            connection.execute(
-                text(_receive_northwind_query())
-            )
+            connection.execute(text(_receive_northwind_query()))
             connection.commit()
+
+        print("Postgres is launched!")
 
         while True:
             pass

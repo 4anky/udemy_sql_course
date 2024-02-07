@@ -6,8 +6,17 @@ run:
 	POSTGRES_PASSWORD=qwerty \
 	POSTGRES_DB=northwind \
 	POSTGRES_PORT=5432 \
-	python3.12 main.py
+	python3.12 postgres/main.py
 
 colima:
 	colima stop && \
 	colima start --network-address
+
+pylint:
+	pylint postgres
+
+black:
+	black postgres
+
+mypy:
+	mypy postgres

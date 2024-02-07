@@ -6,7 +6,7 @@ which tries to get the query to fill database.
 from sqlalchemy import create_engine, text
 from testcontainers.postgres import PostgresContainer
 
-from settings import NORTHWIND_FILE_PATH, PORT
+from settings import NORTHWIND_FILE_PATH, DB_CONFIG
 
 
 __all__ = ("run",)
@@ -29,7 +29,9 @@ def run() -> None:
     then postgres container will be removed.
     """
 
-    with PostgresContainer(port=PORT).with_bind_ports(PORT, host=PORT) as postgres:
+    with PostgresContainer(**DB_CONFIG).with_bind_ports(
+        DB_CONFIG["port"], host=DB_CONFIG["port"]
+    ) as postgres:
         engine = create_engine(postgres.get_connection_url())
         with engine.connect() as connection:
             connection.execute(text(_receive_northwind_query()))

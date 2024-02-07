@@ -2,10 +2,21 @@
 
 from os import environ
 from os.path import join
+from types import MappingProxyType
 
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 NORTHWIND_FILE_PATH: str = join("postgres", "northwind.sql")
 """Path to the Script which contains Northwind data."""
 
-PORT: int = int(environ["POSTGRES_PORT"])
-"""Port for container and host. Is used to expose."""
+DB_CONFIG: MappingProxyType[str, str | int] = MappingProxyType(
+    {
+        "port": int(environ["POSTGRES_PORT"]),
+        "user": environ["POSTGRES_USER"],
+        "password": environ["POSTGRES_PASSWORD"],
+        "dbname": environ["POSTGRES_DB"],
+    }
+)

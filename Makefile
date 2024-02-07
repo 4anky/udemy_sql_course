@@ -5,4 +5,9 @@ run:
 	POSTGRES_USER=vladimir \
 	POSTGRES_PASSWORD=qwerty \
 	POSTGRES_DB=northwind \
+	POSTGRES_PORT=5432 \
 	python3.12 main.py
+
+colima:
+	colima stop && \
+	colima start --network-address

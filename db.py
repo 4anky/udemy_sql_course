@@ -1,3 +1,5 @@
+from os import environ
+
 from sqlalchemy import create_engine, text
 from testcontainers.postgres import PostgresContainer
 
@@ -9,6 +11,9 @@ __all__ = (
 
 _NORTHWIND_FILE_PATH = 'northwind.sql'
 """Path to the Script which contains Northwind data."""
+
+_PORT = int(environ['POSTGRES_PORT'])
+"""Port for container and host. Is used to expose."""
 
 
 def _receive_northwind_query() -> str:
@@ -28,7 +33,11 @@ def run_northwind() -> None:
     then postgres container will be removed.
     """
 
-    with PostgresContainer() as postgres:
+    with PostgresContainer(
+            port=_PORT
+    ).with_bind_ports(
+            _PORT, host=_PORT
+    ) as postgres:
         engine = create_engine(postgres.get_connection_url())
         with engine.connect() as connection:
             connection.execute(

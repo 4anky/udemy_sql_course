@@ -5,9 +5,11 @@ colorama==0.4.6
 crayons==0.4.0
 deprecation==2.1.0
 docker==7.0.0
+greenlet==3.1.1
 idna==3.6
 packaging==23.2
 psycopg2-binary==2.9.9
+python-dotenv==1.0.1
 requests==2.31.0
 SQLAlchemy==2.0.23
 testcontainers==3.7.1
